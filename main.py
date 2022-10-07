@@ -39,7 +39,7 @@ def draw_frame(window, employees):
     child_frame = create_frame(parent_frame)
     child_frame.grid(row=2, column=0, columnspan=5, padx=15, pady=15)
 
-    e1 = ttk.Entry(parent_frame)  #Putting the entry inside the frame
+    e1 = ttk.Entry(parent_frame, width=15)  #Putting the entry inside the frame
     e1.grid(row=0, column=0, padx=2, pady=15)
 
     def btn_click():
