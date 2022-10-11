@@ -7,6 +7,9 @@ from tkinter import *
 parent_frame = None
 child_frame = None
 
+e1 = None
+e2 = None
+
 
 def read_csv(file_name):
     file = open(file_name, "r")
@@ -34,6 +37,8 @@ def draw_emp(frame, employees):
 def draw_frame(window, employees):
     global parent_frame
     global child_frame
+    global e1
+    global e2
     parent_frame = create_frame(window)
 
     child_frame = create_frame(parent_frame)
@@ -42,20 +47,54 @@ def draw_frame(window, employees):
     e1 = ttk.Entry(parent_frame, width=15)  #Putting the entry inside the frame
     e1.grid(row=0, column=0, padx=2, pady=15)
 
-    def btn_click():
+    e2 = ttk.Entry(parent_frame, width=15)  #Putting the entry inside the frame for deleting
+    e2.grid(row=0, column=3, padx=2, pady=15)
+
+    def redraw_frame(employees):
         global child_frame
         global parent_frame
-        input_value = e1.get()
-        result = filter_by_department(input_value)
-        child_frame.destroy()
+        global e1
+        global e2
+        child_frame.destroy() #Updating the UI
         child_frame.pack_forget()
-
         child_frame = create_frame(parent_frame)
         child_frame.grid(row=2, column=0, columnspan=5, padx=15, pady=15)
-        draw_emp(child_frame, result)
+
+        draw_emp(child_frame, employees)
+        e1.delete(0, END)
+        e2.delete(0, END)
 
 
-    btn = ttk.Button(parent_frame, text="Search", command=btn_click).grid(row=0, column=1, padx=15, pady=15)
+    def btn_search():
+        input_value = e1.get()
+        result = filter_by_department(input_value)
+
+        redraw_frame(result)
+
+
+
+    def btn_delete():
+        input_value = e2.get()
+        employees = read_csv("/home/jurgen/dev/phone_search/employees.csv")
+        file = open("/home/jurgen/dev/phone_search/employees.csv", "w")
+        writer = csv.writer(file, delimiter=",")
+        for employee in employees:
+            if employee[0] != input_value:
+                writer.writerow(employee)
+
+        employees = read_csv("/home/jurgen/dev/phone_search/employees.csv")
+        redraw_frame(employees[1: 10])
+
+    def button_home():
+        employees = read_csv("/home/jurgen/dev/phone_search/employees.csv")
+        redraw_frame(employees[1:10])
+
+
+    btn_1 = ttk.Button(parent_frame, text="Search", command=btn_search).grid(row=0, column=1, padx=15, pady=15)
+    btn_2 = ttk.Button(parent_frame, text="Delete Employee", command=btn_delete).grid(row=0, column=4, padx=15, pady=15)
+    btn_home = ttk.Button(parent_frame, text="HOME", command=button_home).grid(row=0, column=2, padx=15, pady=15)
+
+    
 
     ttk.Label(parent_frame, text="ID", borderwidth=2, relief="solid", width=15).grid(column=0, row=1, padx=2)
     ttk.Label(parent_frame, text="NAME", borderwidth=2, relief="solid", width=15).grid(column=1, row=1, padx=2)
