@@ -39,8 +39,8 @@ def draw_frame(window, employees):
     global child_frame
     global e1
     global e2
-    parent_frame = create_frame(window)
 
+    parent_frame = create_frame(window)
     child_frame = create_frame(parent_frame)
     child_frame.grid(row=2, column=0, columnspan=5, padx=15, pady=15)
 
