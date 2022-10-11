@@ -3,10 +3,9 @@ import tkinter
 import csv
 from tkinter import *
 
-
+# GLOBAL vars
 parent_frame = None
 child_frame = None
-
 e1 = None
 e2 = None
 
