@@ -8,6 +8,7 @@ parent_frame = None
 child_frame = None
 e1 = None
 e2 = None
+FILE_PATH = './employees.csv'
 
 
 def read_csv(file_name):
@@ -74,18 +75,18 @@ def draw_frame(window, employees):
 
     def btn_delete():
         input_value = e2.get()
-        employees = read_csv("/home/jurgen/dev/phone_search/employees.csv")
-        file = open("/home/jurgen/dev/phone_search/employees.csv", "w")
+        employees = read_csv(FILE_PATH)
+        file = open(FILE_PATH, "w")
         writer = csv.writer(file, delimiter=",")
         for employee in employees:
             if employee[0] != input_value:
                 writer.writerow(employee)
 
-        employees = read_csv("/home/jurgen/dev/phone_search/employees.csv")
+        employees = read_csv(FILE_PATH)
         redraw_frame(employees[1: 10])
 
     def button_home():
-        employees = read_csv("/home/jurgen/dev/phone_search/employees.csv")
+        employees = read_csv(FILE_PATH)
         redraw_frame(employees[1:10])
 
 
@@ -107,7 +108,7 @@ def draw_frame(window, employees):
 
 def filter_by_department(dpt):
     result = []
-    employees = read_csv("/home/jurgen/dev/phone_search/employees.csv")
+    employees = read_csv(FILE_PATH)
     for employee in employees:
         if employee[3] == dpt:
             result.append(employee)
@@ -119,7 +120,7 @@ def main():
     window = tkinter.Tk()  #Creating the window
     window.geometry("900x900")
 
-    employees = read_csv("/home/jurgen/dev/phone_search/employees.csv")
+    employees = read_csv(FILE_PATH)
 
     draw_frame(window, employees[1:10])
 
